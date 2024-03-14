@@ -3,28 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Entry Form</title>
+    <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Excel Entry Form</h1>
-        <form id="entryForm">
+        <h1>Login</h1>
+        <form id="loginForm">
             <div class="form-group">
-                <label for="item_code">Item Code:</label>
-                <input type="text" id="item_code" name="item_code" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">Login</button>
         </form>
-		<br><br>
-        <div id="message"></div> <!-- Placeholder for success message -->
+        <div id="entryFormContainer" style="display: none;">
+            <h1>Excel Entry Form</h1>
+            <form id="entryForm">
+                <div class="form-group">
+                    <label for="item_code">Item Code:</label>
+                    <input type="text" id="item_code" name="item_code" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" required>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+			<br><br>
+            <div id="message"></div> <!-- Placeholder for success message -->
+        </div>
     </div>
 
     <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Hardcoded username and password
+            const username = "user";
+            const password = "password";
+            
+            // Get entered username and password
+            const enteredUsername = document.getElementById("username").value;
+            const enteredPassword = document.getElementById("password").value;
+            
+            // Check if entered credentials match the hardcoded values
+            if (enteredUsername === username && enteredPassword === password) {
+                // Display the Excel entry form
+                document.getElementById("entryFormContainer").style.display = "block";
+            } else {
+                // Display error message for incorrect credentials
+                alert("Invalid username or password");
+            }
+        });
+
         document.getElementById("entryForm").addEventListener("submit", async function(event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -33,7 +68,7 @@
 
             // Send form data to the server using fetch
             try {
-                const response = await fetch("http://localhost:5000/submit", {
+                const response = await fetch("http://104.211.3.62:7071/submit", {
                     method: "POST",
                     body: formData
                 });
