@@ -30,7 +30,7 @@ label {
 input[type="text"],
 input[type="password"],
 input[type="number"] {
-    width: 90%;
+    width: 100%; /* Adjusted for responsiveness */
     padding: 10px;
     font-size: 16px;
     border-radius: 5px;
@@ -39,7 +39,7 @@ input[type="number"] {
 
 button {
     display: block;
-    width: 17%;
+    width: 100%; /* Adjusted for responsiveness */
     padding: 10px;
     font-size: 16px;
     background-color: #007bff;
@@ -47,6 +47,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 10px; /* Added spacing between buttons */
 }
 
 button:hover {
@@ -54,18 +55,20 @@ button:hover {
 }
 
 #optionButtons {
-	display: flex; /* Use flexbox for better alignment */
+    display: flex; /* Use flexbox for better alignment */
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    justify-content: space-between; /* Add space between buttons */
 }
 
 #optionButtons button {
-	display: inline-block; /* Display buttons inline */
-	margin-right: 10px; /* Add some spacing between buttons */
+    width: 48%; /* Adjusted button width for responsiveness */
 }
 
 /* CSS for styling the inventory table */
 .inventory-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px; /* Added margin to separate table from form */
 }
 
 .inventory-table th,
@@ -86,4 +89,16 @@ button:hover {
 
 .inventory-table tr:hover {
     background-color: #f2f2f2;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 90%; /* Adjust container width for smaller screens */
+    }
+
+    #optionButtons button {
+        width: 100%; /* Set button width to 100% on smaller screens */
+        margin-top: 10px; /* Add spacing between buttons */
+    }
 }
