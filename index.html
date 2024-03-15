@@ -20,21 +20,122 @@
             </div>
             <button type="submit">Login</button>
         </form>
-        <div id="entryFormContainer" style="display: none;">
-            <h1>Excel Entry Form</h1>
-            <form id="entryForm">
-                <div class="form-group">
-                    <label for="item_code">Item Code:</label>
-                    <input type="text" id="item_code" name="item_code" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" required>
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+		<br> <br>
+        <!-- Option buttons -->
+        <div id="optionButtons" style="display: none;">
+            <button id="productInductionBtn">Product Induction</button>
+            <button id="addInventoryBtn">Add Inventory</button>
+            <button id="reduceInventoryBtn">Reduce Inventory</button>
+            <button id="fetchInventoryBtn">Fetch Inventory</button>
+            <button id="productInformationBtn">Product Information</button>
+        </div>
+
+        <!-- Forms -->
+        <div id="formsContainer" style="display: none;">
+            <div id="productInductionForm" class="form-container" style="display: none;">
+                <!-- Product Induction Form -->
+				<!-- Add Inventory Form -->
+			
+				<h1>Enter New Product</h1>
+				<form id="inductProduct">
+					<div class="form-group">
+						<label for="item_code">Item Code:</label>
+						<input type="text" id="item_code" name="item_code" required>
+					</div>
+					<div class="form-group">
+						<label for="product_name">Product Name:</label>
+						<input type="text" id="product_name" name="name" required>
+					</div>
+					<div class="form-group">
+						<label for="Description">Description:</label>
+						<input type="text" id="Description" name="description" required>
+					</div>
+					<div class="form-group">
+						<label for="supplier_name">Supplier Name:</label>
+						<input type="text" id="supplier_name" name="supplier" required>
+					</div>
+					<div class="form-group">
+						<label for="price">Price:</label>
+						<input type="text" id="price" name="price" required>
+					</div>
+					<div class="form-group">
+						<label for="quantity">Quantity:</label>
+						<input type="number" id="quantity" name="quantity" required>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+				<br><br>
+                <!-- Add your form elements here -->
+            </div>
+            <div id="addInventoryForm" class="form-container" style="display: block;">
+				<!-- Add Inventory Form -->
+			
+				<h1>Add Inventory</h1>
+				<form id="addInventory">
+					<div class="form-group">
+						<label for="item_code">Item Code:</label>
+						<input type="text" id="inv_item_code" name="item_code" required>
+					</div>
+					<div class="form-group">
+						<label for="quantity">Quantity:</label>
+						<input type="number" id="inv_quantity" name="quantity" required>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+				<br><br>
+
+			
+				<!-- Add your form elements here -->
+            </div>
+            <div id="reduceInventoryForm" class="form-container" style="display: none;">
+                <!-- Reduce Inventory Form -->
+				<h1>Reduce Inventory</h1>
+				<form id="reduceInventory">
+					<div class="form-group">
+						<label for="item_code">Item Code:</label>
+						<input type="text" id="inv_rem_item_code" name="item_code" required>
+					</div>
+					<div class="form-group">
+						<label for="quantity">Quantity:</label>
+						<input type="number" id="inv_rem_quantity" name="quantity" required>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+				<br><br>
+                <!-- Add your form elements here -->
+            </div>
+            <div id="fetchInventoryForm" class="form-container" style="display: none;">
+                <!-- Fetch Inventory Form -->
+                <h1>Fetch Inventory</h1>
+                <form id="fetchInventory">
+                    <div class="form-group">
+                        <label for="fetchItemCode">Item Code:</label>
+                        <input type="text" id="fetchItemCode" name="fetchItemCode" required>
+                    </div>
+                    <button type="submit">Fetch Inventory</button>
+                </form>
+                <br><br>
+                <div id="inventoryDetails"></div> <!-- Placeholder for displaying fetched inventory details -->
+            
+                <!-- Add your form elements here -->
+            </div>
+            <div id="productInformationForm" class="form-container" style="display: none;">
+                <!-- Product Information Form -->
+				<h1>Product Information</h1>
+                <form id="getProduct">
+                    <div class="form-group">
+                        <label for="productId">Item Code:</label>
+                        <input type="text" id="productId" name="productId" required>
+                    </div>
+                    <button type="submit">Get Product</button>
+                </form>
+                <br><br>
+                <div id="productInfo"></div> <!-- Placeholder for displaying fetched inventory details -->
+                <!-- Add your form elements here -->
+            </div>
+			
 			<br><br>
-            <div id="message"></div> <!-- Placeholder for success message -->
+			<div id="message"></div> <!-- Placeholder for success message -->
         </div>
     </div>
 
@@ -52,15 +153,48 @@
             
             // Check if entered credentials match the hardcoded values
             if (enteredUsername === username && enteredPassword === password) {
-                // Display the Excel entry form
-                document.getElementById("entryFormContainer").style.display = "block";
+                // Display the option buttons
+                document.getElementById("optionButtons").style.display = "block";
             } else {
                 // Display error message for incorrect credentials
                 alert("Invalid username or password");
             }
         });
 
-        document.getElementById("entryForm").addEventListener("submit", async function(event) {
+        // Add event listeners for option buttons
+        document.getElementById("productInductionBtn").addEventListener("click", function() {
+            showForm("productInductionForm");
+        });
+
+        document.getElementById("addInventoryBtn").addEventListener("click", function() {
+            showForm("addInventoryForm");
+        });
+
+        document.getElementById("reduceInventoryBtn").addEventListener("click", function() {
+            showForm("reduceInventoryForm");
+        });
+
+        document.getElementById("fetchInventoryBtn").addEventListener("click", function() {
+            showForm("fetchInventoryForm");
+        });
+
+        document.getElementById("productInformationBtn").addEventListener("click", function() {
+            showForm("productInformationForm");
+        });
+
+        // Function to show a specific form and hide others
+        function showForm(formId) {
+            const forms = document.getElementsByClassName("form-container");
+            for (let i = 0; i < forms.length; i++) {
+                forms[i].style.display = "none";
+            }
+			document.getElementById("formsContainer").style.display = "block";
+            document.getElementById(formId).style.display = "block";
+			document.getElementById("message").textContent = "";
+        }
+		
+		
+		document.getElementById("inductProduct").addEventListener("submit", async function(event) {
             event.preventDefault(); // Prevent default form submission
 
             // Get form data
@@ -68,7 +202,7 @@
 
             // Send form data to the server using fetch
             try {
-                const response = await fetch("http://104.211.3.62:7071/submit", {
+                const response = await fetch("http://104.211.3.62:7071/induct", {
                     method: "POST",
                     body: formData
                 });
@@ -80,6 +214,194 @@
                 console.error("Error:", error);
             }
         });
+		
+		document.getElementById("addInventory").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // Send form data to the server using fetch
+            try {
+                const response = await fetch("http://104.211.3.62:7071/add", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+
+                // Display success message
+                document.getElementById("message").textContent = data.message;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+		
+		document.getElementById("reduceInventory").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // Send form data to the server using fetch
+            try {
+                const response = await fetch("http://104.211.3.62:7071/reduce", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+
+                // Display success message
+                document.getElementById("message").textContent = data.message;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+		
+		
+		// Fetch inventory form submission
+        document.getElementById("fetchInventory").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get item code to fetch inventory
+            const itemCode = document.getElementById("fetchItemCode").value;
+            
+            // Fetch inventory details from backend API
+            try {
+                const response = await fetch(`http://104.211.3.62:7071/fetch/${itemCode}`);
+                const data = await response.json();
+                
+                // Display fetched inventory details to the user
+                const inventoryDetailsElement = document.getElementById("inventoryDetails");
+                if (data.success) {
+                    
+					// Create a new table element
+					const table = document.createElement("table");
+					table.classList.add("inventory-table"); // Add a class to style the table if needed
+
+					// Create the header row
+					const headerRow = document.createElement("tr");
+					const itemCodeHeader = document.createElement("th");
+					itemCodeHeader.textContent = "Item Code";
+					headerRow.appendChild(itemCodeHeader);
+					const inventoryHeader = document.createElement("th");
+					inventoryHeader.textContent = "Inventory";
+					headerRow.appendChild(inventoryHeader);
+					table.appendChild(headerRow);
+
+					// Create the data row
+					const dataRow = document.createElement("tr");
+					const itemCodeData = document.createElement("td");
+					itemCodeData.textContent = data.itemCode;
+					dataRow.appendChild(itemCodeData);
+					const inventoryData = document.createElement("td");
+					inventoryData.textContent = data.quantity;
+					dataRow.appendChild(inventoryData);
+					table.appendChild(dataRow);
+
+					// Append the table to the inventory details div
+					inventoryDetailsElement.innerHTML = ''; // Clear existing content
+					inventoryDetailsElement.appendChild(table);
+                } else {
+                    inventoryDetailsElement.textContent = "Failed to fetch inventory details";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+		
+		
+		// Get Product Information
+        document.getElementById("getProduct").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get item code to fetch inventory
+            const itemCode = document.getElementById("productId").value;
+            
+            // Fetch inventory details from backend API
+            try {
+                const response = await fetch(`http://104.211.3.62:7071/get/${itemCode}`);
+                const data = await response.json();
+                
+                // Display fetched inventory details to the user
+                const productInfoElement = document.getElementById("productInfo");
+                if (data.success) {
+                    
+					// Create a new table element
+					const table = document.createElement("table");
+					table.classList.add("inventory-table"); // Add a class to style the table if needed
+
+								
+					// item code row
+					const item_code_headerRow = document.createElement("tr");
+					const itemCodeHeader = document.createElement("th");
+					itemCodeHeader.textContent = "Item Code";
+					item_code_headerRow.appendChild(itemCodeHeader);
+					const item_code_header = document.createElement("th");
+					item_code_header.textContent = data.itemCode;
+					item_code_headerRow.appendChild(item_code_header);
+					table.appendChild(item_code_headerRow);
+
+					// Name row
+					const dataRow_name = document.createElement("tr");
+					const nameRow = document.createElement("td");
+					nameRow.textContent = "Name";
+					dataRow_name.appendChild(nameRow);
+					const nameData = document.createElement("td");
+					nameData.textContent = data.name;
+					dataRow_name.appendChild(nameData);
+					table.appendChild(dataRow_name);
+					
+					// description row
+					const dataRow_description = document.createElement("tr");
+					const descriptionRow = document.createElement("td");
+					descriptionRow.textContent = "Description";
+					dataRow_description.appendChild(descriptionRow);
+					const descriptionData = document.createElement("td");
+					descriptionData.textContent = data.description;
+					dataRow_description.appendChild(descriptionData);
+					table.appendChild(dataRow_description);
+					
+					// supplier row
+					const dataRow_supplier = document.createElement("tr");
+					const supplierRow = document.createElement("td");
+					supplierRow.textContent = "Supplier";
+					dataRow_supplier.appendChild(supplierRow);
+					const supplierData = document.createElement("td");
+					supplierData.textContent = data.supplier;
+					dataRow_supplier.appendChild(supplierData);
+					table.appendChild(dataRow_supplier);
+					
+					// price row
+					const dataRow_price = document.createElement("tr");
+					const priceRow = document.createElement("td");
+					priceRow.textContent = "Price";
+					dataRow_price.appendChild(priceRow);
+					const priceData = document.createElement("td");
+					priceData.textContent = data.price;
+					dataRow_price.appendChild(priceData);
+					table.appendChild(dataRow_price);
+					
+					// quantity row
+					const dataRow_quantity = document.createElement("tr");
+					const quantityRow = document.createElement("td");
+					quantityRow.textContent = "Quantity at Hand";
+					dataRow_quantity.appendChild(quantityRow);
+					const quantityData = document.createElement("td");
+					quantityData.textContent = data.quantity;
+					dataRow_quantity.appendChild(quantityData);
+					table.appendChild(dataRow_quantity);
+
+					// Append the table to the inventory details div
+					productInfoElement.innerHTML = ''; // Clear existing content
+					productInfoElement.appendChild(table);
+                } else {
+                    productInfoElement.textContent = "Failed to fetch Product Info";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+		
     </script>
 </body>
 </html>
